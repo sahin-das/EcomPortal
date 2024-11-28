@@ -20,7 +20,7 @@ namespace EcomPortal.Controllers
 
         [HttpGet]
         [Route("{id:guid}")]
-        public IActionResult GetProductById(int id)
+        public IActionResult GetProductById(Guid id)
         {
             var product = dbContext.Products.Find(id);
             if (product == null)

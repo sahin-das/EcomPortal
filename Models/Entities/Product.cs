@@ -1,4 +1,6 @@
-﻿namespace EcomPortal.Models.Entities
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace EcomPortal.Models.Entities
 {
     public class Product
     {
