@@ -15,6 +15,11 @@ namespace EcomPortal.Controllers
         public IActionResult GetProduct()
         {
             var products = dbContext.Products.ToList();
+            if (products != null)
+            {
+                throw new Exception("Sahin Errror in Logger");
+            }
+            
             return Ok(products);
         }
 
