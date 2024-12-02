@@ -1,0 +1,151 @@
+2024-12-02 11:53:10.250 +05:30 [INF] Starting up the application...
+2024-12-02 11:53:10.378 +05:30 [DBG] Registered model binder providers, in the following order: ["Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BinderTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ServicesModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BodyModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.HeaderModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FloatingPointTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.EnumTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.DateTimeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.SimpleTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.TryParseModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CancellationTokenModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ByteArrayModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormFileModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormCollectionModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.KeyValuePairModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.DictionaryModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ArrayModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CollectionModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ComplexObjectModelBinderProvider"]
+2024-12-02 11:53:10.404 +05:30 [DBG] Hosting starting
+2024-12-02 11:53:10.469 +05:30 [INF] Now listening on: https://localhost:7199
+2024-12-02 11:53:10.470 +05:30 [INF] Now listening on: http://localhost:5247
+2024-12-02 11:53:10.471 +05:30 [DBG] Loaded hosting startup assembly EcomPortal
+2024-12-02 11:53:10.472 +05:30 [DBG] Loaded hosting startup assembly Microsoft.WebTools.ApiEndpointDiscovery
+2024-12-02 11:53:10.472 +05:30 [DBG] Loaded hosting startup assembly Microsoft.AspNetCore.Watch.BrowserRefresh
+2024-12-02 11:53:10.473 +05:30 [DBG] Loaded hosting startup assembly Microsoft.WebTools.BrowserLink.Net
+2024-12-02 11:53:10.492 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2024-12-02 11:53:10.493 +05:30 [INF] Hosting environment: Development
+2024-12-02 11:53:10.494 +05:30 [INF] Content root path: C:\Users\SahinDas\source\repos\EcomPortal
+2024-12-02 11:53:10.494 +05:30 [DBG] Hosting started
+2024-12-02 11:53:10.770 +05:30 [DBG] Connection id "0HN8IJ75LRT24" accepted.
+2024-12-02 11:53:10.770 +05:30 [DBG] Connection id "0HN8IJ75LRT23" accepted.
+2024-12-02 11:53:10.772 +05:30 [DBG] Connection id "0HN8IJ75LRT24" started.
+2024-12-02 11:53:10.772 +05:30 [DBG] Connection id "0HN8IJ75LRT23" started.
+2024-12-02 11:53:10.777 +05:30 [DBG] Connection id "0HN8IJ75LRT23" received FIN.
+2024-12-02 11:53:10.777 +05:30 [DBG] Connection id "0HN8IJ75LRT24" received FIN.
+2024-12-02 11:53:10.781 +05:30 [DBG] Failed to authenticate HTTPS connection.
+System.IO.IOException: Received an unexpected EOF or 0 bytes from the transport stream.
+   at System.Net.Security.SslStream.ReceiveHandshakeFrameAsync[TIOAdapter](CancellationToken cancellationToken)
+   at System.Net.Security.SslStream.ForceAuthenticationAsync[TIOAdapter](Boolean receiveFirst, Byte[] reAuthenticationData, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Https.Internal.HttpsConnectionMiddleware.OnConnectionAsync(ConnectionContext context)
+2024-12-02 11:53:10.781 +05:30 [DBG] Failed to authenticate HTTPS connection.
+System.IO.IOException: Received an unexpected EOF or 0 bytes from the transport stream.
+   at System.Net.Security.SslStream.ReceiveHandshakeFrameAsync[TIOAdapter](CancellationToken cancellationToken)
+   at System.Net.Security.SslStream.ForceAuthenticationAsync[TIOAdapter](Boolean receiveFirst, Byte[] reAuthenticationData, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Https.Internal.HttpsConnectionMiddleware.OnConnectionAsync(ConnectionContext context)
+2024-12-02 11:53:10.791 +05:30 [DBG] Connection id "0HN8IJ75LRT24" stopped.
+2024-12-02 11:53:10.791 +05:30 [DBG] Connection id "0HN8IJ75LRT23" stopped.
+2024-12-02 11:53:10.793 +05:30 [DBG] Connection id "0HN8IJ75LRT24" sending FIN because: "The Socket transport's send loop completed gracefully."
+2024-12-02 11:53:10.793 +05:30 [DBG] Connection id "0HN8IJ75LRT23" sending FIN because: "The Socket transport's send loop completed gracefully."
+2024-12-02 11:53:10.871 +05:30 [DBG] Connection id "0HN8IJ75LRT25" accepted.
+2024-12-02 11:53:10.873 +05:30 [DBG] Connection id "0HN8IJ75LRT25" started.
+2024-12-02 11:53:10.889 +05:30 [DBG] Connection 0HN8IJ75LRT25 established using the following protocol: "Tls13"
+2024-12-02 11:53:10.912 +05:30 [INF] Request starting HTTP/2 GET https://localhost:7199/swagger/index.html - null null
+2024-12-02 11:53:10.954 +05:30 [DBG] Wildcard detected, all requests with hosts will be allowed.
+2024-12-02 11:53:10.962 +05:30 [DBG] No candidates found for the request path '/swagger/index.html'
+2024-12-02 11:53:10.963 +05:30 [DBG] Request did not match any endpoints
+2024-12-02 11:53:10.991 +05:30 [DBG] Response markup is scheduled to include Browser Link script injection.
+2024-12-02 11:53:10.993 +05:30 [DBG] Response markup is scheduled to include browser refresh script injection.
+2024-12-02 11:53:10.999 +05:30 [DBG] Response markup was updated to include Browser Link script injection.
+2024-12-02 11:53:11.000 +05:30 [DBG] Response markup was updated to include browser refresh script injection.
+2024-12-02 11:53:11.002 +05:30 [INF] Request finished HTTP/2 GET https://localhost:7199/swagger/index.html - 200 null text/html;charset=utf-8 90.1171ms
+2024-12-02 11:53:11.010 +05:30 [INF] Request starting HTTP/2 GET https://localhost:7199/_framework/aspnetcore-browser-refresh.js - null null
+2024-12-02 11:53:11.011 +05:30 [INF] Request starting HTTP/2 GET https://localhost:7199/_vs/browserLink - null null
+2024-12-02 11:53:11.013 +05:30 [INF] Request finished HTTP/2 GET https://localhost:7199/_framework/aspnetcore-browser-refresh.js - 200 13756 application/javascript; charset=utf-8 3.4827ms
+2024-12-02 11:53:11.026 +05:30 [INF] Request finished HTTP/2 GET https://localhost:7199/_vs/browserLink - 200 null text/javascript; charset=UTF-8 14.9753ms
+2024-12-02 11:53:11.150 +05:30 [INF] Request starting HTTP/2 GET https://localhost:7199/swagger/v1/swagger.json - null null
+2024-12-02 11:53:11.152 +05:30 [DBG] No candidates found for the request path '/swagger/v1/swagger.json'
+2024-12-02 11:53:11.153 +05:30 [DBG] Request did not match any endpoints
+2024-12-02 11:53:11.193 +05:30 [INF] Request finished HTTP/2 GET https://localhost:7199/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 43.2232ms
+2024-12-02 11:53:17.177 +05:30 [INF] Request starting HTTP/2 GET https://localhost:7199/swagger/index.html - null null
+2024-12-02 11:53:17.181 +05:30 [DBG] No candidates found for the request path '/swagger/index.html'
+2024-12-02 11:53:17.183 +05:30 [DBG] Request did not match any endpoints
+2024-12-02 11:53:17.185 +05:30 [DBG] Response markup is scheduled to include Browser Link script injection.
+2024-12-02 11:53:17.186 +05:30 [DBG] Response markup is scheduled to include browser refresh script injection.
+2024-12-02 11:53:17.189 +05:30 [DBG] Response markup was updated to include Browser Link script injection.
+2024-12-02 11:53:17.190 +05:30 [DBG] Response markup was updated to include browser refresh script injection.
+2024-12-02 11:53:17.191 +05:30 [INF] Request finished HTTP/2 GET https://localhost:7199/swagger/index.html - 200 null text/html;charset=utf-8 14.3308ms
+2024-12-02 11:53:17.194 +05:30 [INF] Request starting HTTP/2 GET https://localhost:7199/_vs/browserLink - null null
+2024-12-02 11:53:17.194 +05:30 [INF] Request starting HTTP/2 GET https://localhost:7199/_framework/aspnetcore-browser-refresh.js - null null
+2024-12-02 11:53:17.201 +05:30 [INF] Request finished HTTP/2 GET https://localhost:7199/_framework/aspnetcore-browser-refresh.js - 200 13756 application/javascript; charset=utf-8 7.3581ms
+2024-12-02 11:53:17.204 +05:30 [INF] Request finished HTTP/2 GET https://localhost:7199/_vs/browserLink - 200 null text/javascript; charset=UTF-8 9.9513ms
+2024-12-02 11:53:17.220 +05:30 [INF] Request starting HTTP/2 GET https://localhost:7199/swagger/v1/swagger.json - null null
+2024-12-02 11:53:17.222 +05:30 [DBG] No candidates found for the request path '/swagger/v1/swagger.json'
+2024-12-02 11:53:17.223 +05:30 [DBG] Request did not match any endpoints
+2024-12-02 11:53:17.226 +05:30 [INF] Request finished HTTP/2 GET https://localhost:7199/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 6.2905ms
+2024-12-02 11:53:17.236 +05:30 [INF] Request starting HTTP/2 GET https://localhost:7199/swagger/index.html - null null
+2024-12-02 11:53:17.239 +05:30 [DBG] No candidates found for the request path '/swagger/index.html'
+2024-12-02 11:53:17.240 +05:30 [DBG] Request did not match any endpoints
+2024-12-02 11:53:17.242 +05:30 [DBG] Response markup is scheduled to include Browser Link script injection.
+2024-12-02 11:53:17.242 +05:30 [DBG] Response markup is scheduled to include browser refresh script injection.
+2024-12-02 11:53:17.243 +05:30 [DBG] Response markup was updated to include Browser Link script injection.
+2024-12-02 11:53:17.244 +05:30 [DBG] Response markup was updated to include browser refresh script injection.
+2024-12-02 11:53:17.245 +05:30 [INF] Request finished HTTP/2 GET https://localhost:7199/swagger/index.html - 200 null text/html;charset=utf-8 9.2692ms
+2024-12-02 11:53:17.249 +05:30 [INF] Request starting HTTP/2 GET https://localhost:7199/_framework/aspnetcore-browser-refresh.js - null null
+2024-12-02 11:53:17.249 +05:30 [INF] Request starting HTTP/2 GET https://localhost:7199/_vs/browserLink - null null
+2024-12-02 11:53:17.252 +05:30 [INF] Request finished HTTP/2 GET https://localhost:7199/_framework/aspnetcore-browser-refresh.js - 200 13756 application/javascript; charset=utf-8 3.4929ms
+2024-12-02 11:53:17.258 +05:30 [INF] Request finished HTTP/2 GET https://localhost:7199/_vs/browserLink - 200 null text/javascript; charset=UTF-8 9.0774ms
+2024-12-02 11:53:17.273 +05:30 [INF] Request starting HTTP/2 GET https://localhost:7199/swagger/v1/swagger.json - null null
+2024-12-02 11:53:17.276 +05:30 [DBG] No candidates found for the request path '/swagger/v1/swagger.json'
+2024-12-02 11:53:17.277 +05:30 [DBG] Request did not match any endpoints
+2024-12-02 11:53:17.279 +05:30 [INF] Request finished HTTP/2 GET https://localhost:7199/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 5.9604ms
+2024-12-02 11:53:20.735 +05:30 [INF] Request starting HTTP/2 GET https://localhost:7199/api/Product - null null
+2024-12-02 11:53:20.743 +05:30 [DBG] 1 candidate(s) found for the request path '/api/Product'
+2024-12-02 11:53:20.748 +05:30 [DBG] Endpoint 'EcomPortal.Controllers.ProductController.GetProduct (EcomPortal)' with route pattern 'api/Product' is valid for the request path '/api/Product'
+2024-12-02 11:53:20.751 +05:30 [DBG] Request matched endpoint 'EcomPortal.Controllers.ProductController.GetProduct (EcomPortal)'
+2024-12-02 11:53:20.754 +05:30 [DBG] Static files was skipped as the request already matched an endpoint.
+2024-12-02 11:53:20.764 +05:30 [INF] Executing endpoint 'EcomPortal.Controllers.ProductController.GetProduct (EcomPortal)'
+2024-12-02 11:53:20.785 +05:30 [INF] Route matched with {action = "GetProduct", controller = "Product"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult GetProduct() on controller EcomPortal.Controllers.ProductController (EcomPortal).
+2024-12-02 11:53:20.789 +05:30 [DBG] Execution plan of authorization filters (in the following order): ["None"]
+2024-12-02 11:53:20.792 +05:30 [DBG] Execution plan of resource filters (in the following order): ["None"]
+2024-12-02 11:53:20.795 +05:30 [DBG] Execution plan of action filters (in the following order): ["Microsoft.AspNetCore.Mvc.ModelBinding.UnsupportedContentTypeFilter (Order: -3000)","Microsoft.AspNetCore.Mvc.Infrastructure.ModelStateInvalidFilter (Order: -2000)"]
+2024-12-02 11:53:20.796 +05:30 [DBG] Execution plan of exception filters (in the following order): ["None"]
+2024-12-02 11:53:20.799 +05:30 [DBG] Execution plan of result filters (in the following order): ["Microsoft.AspNetCore.Mvc.Infrastructure.ClientErrorResultFilter (Order: -2000)"]
+2024-12-02 11:53:20.802 +05:30 [DBG] Executing controller factory for controller EcomPortal.Controllers.ProductController (EcomPortal)
+2024-12-02 11:53:20.942 +05:30 [DBG] An 'IServiceProvider' was created for internal use by Entity Framework.
+2024-12-02 11:53:20.973 +05:30 [DBG] Executed controller factory for controller EcomPortal.Controllers.ProductController (EcomPortal)
+2024-12-02 11:53:20.978 +05:30 [INF] Executing Get method
+2024-12-02 11:53:21.173 +05:30 [WRN] No store type was specified for the decimal property 'Price' on entity type 'Product'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2024-12-02 11:53:21.230 +05:30 [DBG] Entity Framework Core 8.0.11 initialized 'ApplicationDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:8.0.11' with options: None
+2024-12-02 11:53:21.245 +05:30 [DBG] Compiling query expression: 
+'DbSet<Product>()'
+2024-12-02 11:53:21.404 +05:30 [DBG] Generated query execution expression: 
+'queryContext => new SingleQueryingEnumerable<Product>(
+    (RelationalQueryContext)queryContext, 
+    RelationalCommandCache.QueryExpression(
+        Projection Mapping:
+            EmptyProjectionMember -> Dictionary<IProperty, int> { [Property: Product.Id (Guid) Required PK AfterSave:Throw ValueGenerated.OnAdd, 0], [Property: Product.Category (string) Required, 1], [Property: Product.Description (string), 2], [Property: Product.Name (string) Required, 3], [Property: Product.Price (decimal) Required, 4] }
+        SELECT p.Id, p.Category, p.Description, p.Name, p.Price
+        FROM Products AS p), 
+    null, 
+    Func<QueryContext, DbDataReader, ResultContext, SingleQueryResultCoordinator, Product>, 
+    EcomPortal.Data.ApplicationDbContext, 
+    False, 
+    False, 
+    True
+)'
+2024-12-02 11:53:21.429 +05:30 [DBG] Creating DbConnection.
+2024-12-02 11:53:21.454 +05:30 [DBG] Created DbConnection. (21ms).
+2024-12-02 11:53:21.459 +05:30 [DBG] Opening connection to database 'EcomPortal' on server 'LAPTOP-FBF54EBQ'.
+2024-12-02 11:53:21.686 +05:30 [DBG] Opened connection to database 'EcomPortal' on server 'LAPTOP-FBF54EBQ'.
+2024-12-02 11:53:21.692 +05:30 [DBG] Creating DbCommand for 'ExecuteReader'.
+2024-12-02 11:53:21.704 +05:30 [DBG] Created DbCommand for 'ExecuteReader' (7ms).
+2024-12-02 11:53:21.709 +05:30 [DBG] Initialized DbCommand for 'ExecuteReader' (17ms).
+2024-12-02 11:53:21.720 +05:30 [DBG] Executing DbCommand [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [p].[Id], [p].[Category], [p].[Description], [p].[Name], [p].[Price]
+FROM [Products] AS [p]
+2024-12-02 11:53:21.763 +05:30 [INF] Executed DbCommand (40ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [p].[Id], [p].[Category], [p].[Description], [p].[Name], [p].[Price]
+FROM [Products] AS [p]
+2024-12-02 11:53:21.810 +05:30 [DBG] Context 'ApplicationDbContext' started tracking 'Product' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2024-12-02 11:53:21.836 +05:30 [DBG] Context 'ApplicationDbContext' started tracking 'Product' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2024-12-02 11:53:21.841 +05:30 [DBG] Closing data reader to 'EcomPortal' on server 'LAPTOP-FBF54EBQ'.
+2024-12-02 11:53:21.851 +05:30 [DBG] A data reader for 'EcomPortal' on server 'LAPTOP-FBF54EBQ' is being disposed after spending 78ms reading results.
+2024-12-02 11:53:21.856 +05:30 [DBG] Closing connection to database 'EcomPortal' on server 'LAPTOP-FBF54EBQ'.
+2024-12-02 11:53:21.863 +05:30 [DBG] Closed connection to database 'EcomPortal' on server 'LAPTOP-FBF54EBQ' (9ms).
+2024-12-02 11:53:21.870 +05:30 [DBG] List of registered output formatters, in the following order: ["Microsoft.AspNetCore.Mvc.Formatters.HttpNoContentOutputFormatter","Microsoft.AspNetCore.Mvc.Formatters.StringOutputFormatter","Microsoft.AspNetCore.Mvc.Formatters.StreamOutputFormatter","Microsoft.AspNetCore.Mvc.Formatters.SystemTextJsonOutputFormatter"]
+2024-12-02 11:53:21.880 +05:30 [DBG] No information found on request to perform content negotiation.
+2024-12-02 11:53:21.881 +05:30 [DBG] Attempting to select an output formatter without using a content type as no explicit content types were specified for the response.
+2024-12-02 11:53:21.885 +05:30 [DBG] Attempting to select the first formatter in the output formatters list which can write the result.
+2024-12-02 11:53:21.888 +05:30 [DBG] Selected output formatter 'Microsoft.AspNetCore.Mvc.Formatters.SystemTextJsonOutputFormatter' and content type 'application/json' to write the response.
+2024-12-02 11:53:21.892 +05:30 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[EcomPortal.Models.Entities.Product, EcomPortal, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2024-12-02 11:53:21.923 +05:30 [INF] Executed action EcomPortal.Controllers.ProductController.GetProduct (EcomPortal) in 1117.2848ms
+2024-12-02 11:53:21.933 +05:30 [INF] Executed endpoint 'EcomPortal.Controllers.ProductController.GetProduct (EcomPortal)'
+2024-12-02 11:53:21.937 +05:30 [DBG] 'ApplicationDbContext' disposed.
+2024-12-02 11:53:21.946 +05:30 [DBG] Disposing connection to database 'EcomPortal' on server 'LAPTOP-FBF54EBQ'.
+2024-12-02 11:53:21.952 +05:30 [DBG] Disposed connection to database '' on server '' (6ms).
+2024-12-02 11:53:21.954 +05:30 [INF] Request finished HTTP/2 GET https://localhost:7199/api/Product - 200 null application/json; charset=utf-8 1219.1146ms

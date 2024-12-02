@@ -7,19 +7,22 @@ namespace EcomPortal.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductController(ApplicationDbContext dbContext) : ControllerBase
+    public class ProductController(ApplicationDbContext dbContext, ILogger<ProductController> logger) : ControllerBase
     {
         public readonly ApplicationDbContext dbContext = dbContext;
+        private readonly ILogger<ProductController> _logger = logger;
 
         [HttpGet]
         public IActionResult GetProduct()
         {
+            _logger.LogInformation("Executing Get method");
             var products = dbContext.Products.ToList();
             if (products != null)
             {
-                throw new Exception("Sahin Errror in Logger");
+                _logger.LogError("sahin log: No products found.");
+                return NotFound("No products found.");
             }
-            
+
             return Ok(products);
         }
 

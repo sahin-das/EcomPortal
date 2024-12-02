@@ -1,7 +1,17 @@
 using EcomPortal.Data;
 using EcomPortal.Middleware;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 
+var configuration = new ConfigurationBuilder()
+    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+    .Build();
+
+Log.Logger = new LoggerConfiguration()
+    .ReadFrom.Configuration(configuration)
+    .CreateLogger();
+
+Log.Information("Starting up the application...");
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -12,6 +22,8 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Host.UseSerilog();
 
 var app = builder.Build();
 
