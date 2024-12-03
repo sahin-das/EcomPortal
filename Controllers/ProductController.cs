@@ -17,7 +17,7 @@ namespace EcomPortal.Controllers
         {
             _logger.LogInformation("Executing Get method");
             var products = dbContext.Products.ToList();
-            if (products != null)
+            if (products == null)
             {
                 _logger.LogError("sahin log: No products found.");
                 return NotFound("No products found.");
@@ -80,6 +80,7 @@ namespace EcomPortal.Controllers
                 return NotFound();
             }
             dbContext.Products.Remove(product);
+            dbContext.SaveChanges();
             return Ok(product);
         }
     }
