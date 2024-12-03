@@ -1,6 +1,6 @@
-﻿namespace EcomPortal.Models
+﻿namespace EcomPortal.Models.UserDto
 {
-    public class UpdateUserDto
+    public class AddUserDto
     {
         public required string Name { get; set; }
         public string? Email { get; set; }

@@ -1,6 +1,6 @@
 ﻿using EcomPortal.Data;
-using EcomPortal.Models;
 using EcomPortal.Models.Entities;
+using EcomPortal.Models.UserDto;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EcomPortal.Controllers

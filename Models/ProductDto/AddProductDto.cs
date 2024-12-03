@@ -1,4 +1,4 @@
-﻿namespace EcomPortal.Models
+﻿namespace EcomPortal.Models.ProductDto
 {
     public class AddProductDto
     {
