@@ -28,8 +28,8 @@ namespace EcomPortal.Middleware
                 var problemDetails = new ProblemDetails
                 {
                     Status = StatusCodes.Status500InternalServerError,
-                    Title = "Intentional Error",
-                    Type = "sahin middleware test"
+                    Title = "Exception Occured",
+                    Detail = ex.Message
                 };
 
                 context.Response.StatusCode = StatusCodes.Status500InternalServerError;

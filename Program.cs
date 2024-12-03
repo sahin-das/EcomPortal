@@ -1,3 +1,4 @@
+using EcomPortal.Controllers;
 using EcomPortal.Data;
 using EcomPortal.Middleware;
 using Microsoft.EntityFrameworkCore;
@@ -41,6 +42,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+app.MapOrderEndpoints();
 
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 
