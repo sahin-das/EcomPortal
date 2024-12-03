@@ -2,7 +2,6 @@
 using EcomPortal.Models;
 using EcomPortal.Models.Entities;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace EcomPortal.Controllers
 {
@@ -17,9 +16,9 @@ namespace EcomPortal.Controllers
             endpoints.MapDelete("/api/orders/{id}", DeleteOrder);
         }
 
-        private static async Task<IResult> GetAllOrders(ApplicationDbContext dbContext)
+        private static IResult GetAllOrders(ApplicationDbContext dbContext)
         {
-            var orders = await dbContext.Orders.ToListAsync();
+            var orders = dbContext.Orders.ToList();
             if (orders == null)
             {
                 return Results.NotFound("No orders found");
