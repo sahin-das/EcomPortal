@@ -1,6 +1,0 @@
-@EcomPortal_HostAddress = http://localhost:5247
-
-GET {{EcomPortal_HostAddress}}/api/order/
-Accept: application/json
-
-###
