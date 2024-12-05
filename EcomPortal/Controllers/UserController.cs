@@ -1,86 +1,70 @@
-﻿using EcomPortal.Data;
-using EcomPortal.Models.Entities;
-using EcomPortal.Models.UserDto;
+﻿using EcomPortal.Models.UserDto;
+using EcomPortal.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EcomPortal.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController(ApplicationDbContext dbContext, ILogger<UserController> logger) : ControllerBase
+    public class UserController(IUserService userService, ILogger<UserController> logger) : ControllerBase
     {
-        public readonly ApplicationDbContext dbContext = dbContext;
+        private readonly IUserService _userService = userService;
         private readonly ILogger<UserController> _logger = logger;
 
         [HttpGet]
-        public IActionResult GetUser()
+        public async Task<IActionResult> GetAllUsers()
         {
             _logger.LogInformation("Executing Get method");
-            var Users = dbContext.Users.ToList();
-            if (Users == null)
-            {
-                _logger.LogError("sahin log: No Users found.");
-                return NotFound("No Users found.");
-            }
-
-            return Ok(Users);
+            var users = await _userService.GetAllUsersAsync();
+            return Ok(users);
         }
 
-        [HttpGet]
-        [Route("{id:guid}")]
-        public IActionResult GetUserById(Guid id)
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetUserById(Guid id)
         {
-            var User = dbContext.Users.Find(id);
-            if (User == null)
+            var user = await _userService.GetUserByIdAsync(id);
+            if (user == null)
             {
-                return NotFound();
+                return NotFound($"User with ID {id} not found.");
             }
-            return Ok(User);
+            return Ok(user);
         }
 
         [HttpPost]
-        public IActionResult AddUser(AddUserDto addUserDto)
+        public async Task<IActionResult> CreateUser([FromBody] AddUserDto request)
         {
-            _logger.LogInformation("Executing POST method: " + addUserDto);
-            var User = new User()
+            if (!ModelState.IsValid)
             {
-                Name = addUserDto.Name,
-                Email = addUserDto.Email,
-                Phone = addUserDto.Phone
-            };
-            dbContext.Users.Add(User);
-            dbContext.SaveChanges();
-            return Ok(User);
+                return BadRequest(ModelState);
+            }
+            await _userService.CreateUserAsync(request);
+            return CreatedAtAction(nameof(GetUserById), new { id = request.Name }, request);
         }
 
-        [HttpPut]
-        [Route("{id:guid}")]
-        public IActionResult UpdateUser(Guid id, UpdateUserDto updateUserDto)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateUser(Guid id, [FromBody] AddUserDto request)
         {
-            var User = dbContext.Users.Find(id);
-            if (User == null)
+            if (!ModelState.IsValid)
             {
-                return NotFound();
+                return BadRequest(ModelState);
             }
-            User.Name = updateUserDto.Name;
-            User.Phone = updateUserDto.Phone;
-            User.Email = updateUserDto.Email;
-            dbContext.SaveChanges();
-            return Ok(User);
+
+            try
+            {
+                await _userService.UpdateUserAsync(id, request);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return NotFound(ex.Message);
+            }
         }
 
-        [HttpDelete]
-        [Route("{id:guid}")]
-        public IActionResult DeleteUser(Guid id)
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteUser(Guid id)
         {
-            var User = dbContext.Users.Find(id);
-            if (User == null)
-            {
-                return NotFound();
-            }
-            dbContext.Users.Remove(User);
-            dbContext.SaveChanges();
-            return Ok();
+            await _userService.DeleteUserAsync(id);
+            return NoContent();
         }
     }
 }

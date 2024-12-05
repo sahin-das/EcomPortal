@@ -1,6 +1,8 @@
 using EcomPortal.Controllers;
 using EcomPortal.Data;
 using EcomPortal.Middleware;
+using EcomPortal.Repositories;
+using EcomPortal.Services;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 
@@ -22,6 +24,9 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
 
 builder.Services.AddControllers();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
