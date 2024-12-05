@@ -1,5 +1,5 @@
 ﻿using EcomPortal.Models.Entities;
-using EcomPortal.Models.UserDto;
+using EcomPortal.Models.Dtos.User;
 using EcomPortal.Repositories;
 using EcomPortal.Services;
 using Moq;
