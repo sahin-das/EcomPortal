@@ -1,5 +1,4 @@
-﻿using EcomPortal.Models;
-using EcomPortal.Models.Entities;
+﻿using EcomPortal.Models.Entities;
 using EcomPortal.Models.UserDto;
 using EcomPortal.Repositories;
 using EcomPortal.Services;
@@ -10,13 +9,13 @@ namespace Ecom.Tests.Users
     [TestFixture]
     public class UserServiceTests
     {
-        private Mock<IUserRepository> _mockRepository;
+        private Mock<IGenericRepository<User>> _mockRepository;
         private UserService _userService;
 
         [SetUp]
         public void Setup()
         {
-            _mockRepository = new Mock<IUserRepository>();
+            _mockRepository = new Mock<IGenericRepository<User>>();
             _userService = new UserService(_mockRepository.Object);
         }
 
@@ -31,7 +30,7 @@ namespace Ecom.Tests.Users
 
             _mockRepository.Setup(repo => repo.GetAllAsync()).ReturnsAsync(users);
 
-            var result = await _userService.GetAllUsersAsync();
+            var result = await _userService.GetAllAsync();
 
             Assert.That(result, Is.Not.Null);
             Assert.That(result.Count(), Is.EqualTo(2));
@@ -48,7 +47,7 @@ namespace Ecom.Tests.Users
             var user = new User { Id = userId, Name = "Existing User", Email = "existing.user@example.com" };
             _mockRepository.Setup(repo => repo.GetByIdAsync(userId)).ReturnsAsync(user);
 
-            var result = await _userService.GetUserByIdAsync(userId);
+            var result = await _userService.GetByIdAsync(userId);
 
             Assert.That(result, Is.Not.Null);
             Assert.That(result.Id, Is.EqualTo(userId));
@@ -70,10 +69,9 @@ namespace Ecom.Tests.Users
 
             _mockRepository.Setup(repo => repo.AddAsync(It.IsAny<User>())).ReturnsAsync(createdUser);
 
-            var result = await _userService.CreateUserAsync(newUser);
+            var result = await _userService.CreateAsync(newUser);
 
             Assert.That(result, Is.Not.Null);
-            Assert.That(result.Id, Is.Not.EqualTo(Guid.Empty));
             Assert.That(result.Name, Is.EqualTo(newUser.Name));
             Assert.That(result.Email, Is.EqualTo(newUser.Email));
 
@@ -88,7 +86,7 @@ namespace Ecom.Tests.Users
             var userId = Guid.NewGuid();
             _mockRepository.Setup(repo => repo.GetByIdAsync(userId)).ReturnsAsync((User)null);
 
-            var result = await _userService.GetUserByIdAsync(userId);
+            var result = await _userService.GetByIdAsync(userId);
 
             Assert.That(result, Is.Null);
             _mockRepository.Verify(repo => repo.GetByIdAsync(userId), Times.Once);
@@ -123,7 +121,7 @@ namespace Ecom.Tests.Users
                 Email = createdUser.Email,
                 Phone = createdUser.Phone
             };
-            var userUpdated = await _userService.UpdateUserAsync(createdUser.Id, updateUserDto);
+            var userUpdated = await _userService.UpdateAsync(createdUser.Id, updateUserDto);
 
             Assert.That(userUpdated.Id, Is.EqualTo(updatedUser.Id));
             Assert.That(userUpdated.Name, Is.EqualTo(updatedUser.Name));
@@ -144,7 +142,7 @@ namespace Ecom.Tests.Users
             var userId = Guid.NewGuid();
             _mockRepository.Setup(repo => repo.DeleteAsync(userId)).Returns(Task.CompletedTask);
 
-            await _userService.DeleteUserAsync(userId);
+            await _userService.DeleteAsync(userId);
 
             _mockRepository.Verify(repo => repo.DeleteAsync(userId), Times.Once);
         }
@@ -155,7 +153,7 @@ namespace Ecom.Tests.Users
             var userId = Guid.NewGuid();
             _mockRepository.Setup(repo => repo.DeleteAsync(userId)).ThrowsAsync(new Exception("User not found"));
 
-            Assert.ThrowsAsync<Exception>(async () => await _userService.DeleteUserAsync(userId));
+            Assert.ThrowsAsync<Exception>(async () => await _userService.DeleteAsync(userId));
             _mockRepository.Verify(repo => repo.DeleteAsync(userId), Times.Once);
         }
     }

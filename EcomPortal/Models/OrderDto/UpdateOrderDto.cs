@@ -1,6 +1,6 @@
 ﻿namespace EcomPortal.Models.OrderRequest
 {
-    public class CreateOrderRequest
+    public class UpdateOrderDto
     {
         public required string BuyerName { get; set; }
         public required string ItemName { get; set; }

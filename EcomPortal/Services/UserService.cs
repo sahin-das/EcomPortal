@@ -4,46 +4,31 @@ using EcomPortal.Repositories;
 
 namespace EcomPortal.Services
 {
-    public class UserService(IUserRepository repository) : IUserService
+    public class UserService(IGenericRepository<User> userRepository) : 
+        GenericService<User, AddUserDto, UpdateUserDto>(userRepository), 
+        IGenericService<User, AddUserDto, UpdateUserDto>
     {
-        private readonly IUserRepository _repository = repository;
+        private readonly IGenericRepository<User> _userRepository = userRepository;
 
-        public async Task<IEnumerable<User>> GetAllUsersAsync()
+        public override User MapToEntity(AddUserDto dto)
         {
-            return await _repository.GetAllAsync();
-        }
-
-        public async Task<User?> GetUserByIdAsync(Guid id)
-        {
-            return await _repository.GetByIdAsync(id);
-        }
-
-        public async Task<User> CreateUserAsync(AddUserDto request)
-        {
-            var user = new User
+            ArgumentNullException.ThrowIfNull(dto);
+            var user = new User() 
             {
-                Name = request.Name,
-                Email = request.Email,
-                Phone = request.Phone
+                Name = dto.Name,
+                Email = dto.Email,
+                Phone = dto.Phone,
             };
 
-            var userCreated = await _repository.AddAsync(user);
-            return userCreated;
+            return user;
         }
 
-        public async Task<User> UpdateUserAsync(Guid id, UpdateUserDto request)
+        public override void MapToEntity(UpdateUserDto dto, User entity)
         {
-            var user = await _repository.GetByIdAsync(id) ?? throw new Exception("User not found");
-            user.Name = request.Name;
-            user.Email = request.Email;
-
-            var userUpdated = await _repository.UpdateAsync(user);
-            return userUpdated;
-        }
-
-        public async Task DeleteUserAsync(Guid id)
-        {
-            await _repository.DeleteAsync(id);
+            ArgumentNullException.ThrowIfNull(dto);
+            entity.Name = dto.Name;
+            entity.Email = dto.Email;
+            entity.Phone = dto.Phone;
         }
     }
 }

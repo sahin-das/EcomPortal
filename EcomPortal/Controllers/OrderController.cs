@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EcomPortal.Controllers
 {
+    // minimal to normal, implment logs, service and repo...
     public static class OrderController
     {
         public static void MapOrderEndpoints(this IEndpointRouteBuilder endpoints)
@@ -36,7 +37,7 @@ namespace EcomPortal.Controllers
             return Results.Ok(order);
         }
 
-        private static async Task<IResult> CreateOrder([FromBody] CreateOrderRequest request, ApplicationDbContext dbContext)
+        private static async Task<IResult> CreateOrder([FromBody] AddOrderDto request, ApplicationDbContext dbContext)
         {
             var order = new Order()
             {
@@ -50,7 +51,7 @@ namespace EcomPortal.Controllers
             return Results.Ok(order);
         }
 
-        private static async Task<IResult> UpdateOrder(Guid id, [FromBody] UpdateOrderRequest request, ApplicationDbContext dbContext)
+        private static async Task<IResult> UpdateOrder(Guid id, [FromBody] UpdateOrderDto request, ApplicationDbContext dbContext)
         {
             var order = await dbContext.Orders.FindAsync(id);
             if (order == null)

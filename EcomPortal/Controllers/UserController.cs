@@ -1,4 +1,5 @@
-﻿using EcomPortal.Models.UserDto;
+﻿using EcomPortal.Models.Entities;
+using EcomPortal.Models.UserDto;
 using EcomPortal.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -6,23 +7,23 @@ namespace EcomPortal.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController(IUserService userService, ILogger<UserController> logger) : ControllerBase
+    public class UserController(IGenericService<User, AddUserDto, UpdateUserDto> userService, ILogger<UserController> logger) : ControllerBase
     {
-        private readonly IUserService _userService = userService;
+        private readonly IGenericService<User, AddUserDto, UpdateUserDto> _userService = userService;
         private readonly ILogger<UserController> _logger = logger;
 
         [HttpGet]
         public async Task<IActionResult> GetAllUsers()
         {
             _logger.LogInformation("Executing Get method");
-            var users = await _userService.GetAllUsersAsync();
+            var users = await _userService.GetAllAsync();
             return Ok(users);
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetUserById(Guid id)
         {
-            var user = await _userService.GetUserByIdAsync(id);
+            var user = await _userService.GetByIdAsync(id);
             if (user == null)
             {
                 return NotFound($"User with ID {id} not found.");
@@ -37,7 +38,7 @@ namespace EcomPortal.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var user = await _userService.CreateUserAsync(request);
+            var user = await _userService.CreateAsync(request);
             return Ok(user);
         }
 
@@ -51,7 +52,7 @@ namespace EcomPortal.Controllers
 
             try
             {
-                var user = await _userService.UpdateUserAsync(id, request);
+                var user = await _userService.UpdateAsync(id, request);
                 return Ok(user);
             }
             catch (Exception ex)
@@ -65,7 +66,7 @@ namespace EcomPortal.Controllers
         {
             try
             {
-                await _userService.DeleteUserAsync(id);
+                await _userService.DeleteAsync(id);
                 return Ok("Deleted Successfully.");
             }
             catch (Exception ex)

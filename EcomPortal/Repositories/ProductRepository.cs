@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EcomPortal.Repositories
 {
-    public class UserRepository(ApplicationDbContext context) : GenericRepository<User>(context), IGenericRepository<User>
+    public class ProductRepository(ApplicationDbContext context) : GenericRepository<Product>(context), IGenericRepository<Product>
     {
         private readonly ApplicationDbContext _context = context;
     }
