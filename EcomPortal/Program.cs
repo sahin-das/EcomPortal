@@ -5,17 +5,19 @@ using EcomPortal.Repositories;
 using EcomPortal.Services;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
+using DotNetEnv;
 
-// to handle for multiple env
 var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Development";
+var envFileName = $".env.{environment.ToLower()}";
+DotNetEnv.Env.Load(envFileName);
+DotNetEnv.Env.Load();
 
-var configuration = new ConfigurationBuilder()
-    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-    .AddJsonFile($"appsettings.{environment}.json", optional: true, reloadOnChange: true)
-    .Build();
-
+// Configure logging
 Log.Logger = new LoggerConfiguration()
-    .ReadFrom.Configuration(configuration)
+    .ReadFrom.Configuration(new ConfigurationBuilder()
+        .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+        .AddJsonFile($"appsettings.{environment}.json", optional: true, reloadOnChange: true)
+        .Build())
     .CreateLogger();
 
 Log.Information("Starting up the application...");
@@ -24,7 +26,7 @@ var builder = WebApplication.CreateBuilder(args);
 Log.CloseAndFlush();
 
 // Add services to the container.
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+var connectionString = Environment.GetEnvironmentVariable("DB_CONNECTION_STRING");
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
 
 builder.Services.AddControllers();
@@ -53,7 +55,6 @@ app.UseAuthorization();
 app.MapControllers();
 app.MapOrderEndpoints();
 
-// global exception handling ..
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.Run();

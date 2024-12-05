@@ -1,4 +1,4 @@
-﻿namespace EcomPortal.Models.UserDto
+﻿namespace EcomPortal.Models.Dtos.User
 {
     public class UpdateUserDto
     {

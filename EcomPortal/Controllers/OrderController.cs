@@ -1,6 +1,6 @@
 ﻿using EcomPortal.Data;
 using EcomPortal.Models.Entities;
-using EcomPortal.Models.OrderRequest;
+using EcomPortal.Models.Dtos.Order;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EcomPortal.Controllers
@@ -41,6 +41,7 @@ namespace EcomPortal.Controllers
         {
             var order = new Order()
             {
+                UserId = request.UserId,
                 BuyerName = request.BuyerName,
                 ItemName = request.ItemName,
                 ItemDescription = request.ItemDescription,
@@ -76,7 +77,7 @@ namespace EcomPortal.Controllers
             }
             dbContext.Remove(order);
             await dbContext.SaveChangesAsync();
-            return Results.Ok("Order deleted succesfully.");
+            return Results.Ok("Order deleted successfully.");
         }
     }
 }

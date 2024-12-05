@@ -26,7 +26,7 @@ namespace EcomPortal.Repositories
 
         public async Task<T> AddAsync(T entity)
         {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            ArgumentNullException.ThrowIfNull(entity, nameof(entity));
 
             await _dbSet.AddAsync(entity);
             await _context.SaveChangesAsync();
@@ -35,7 +35,7 @@ namespace EcomPortal.Repositories
 
         public async Task<T> UpdateAsync(T entity)
         {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            ArgumentNullException.ThrowIfNull(entity, nameof(entity));
 
             _dbSet.Update(entity);
             await _context.SaveChangesAsync();

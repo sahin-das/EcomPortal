@@ -1,6 +1,5 @@
 ﻿using EcomPortal.Data;
 using EcomPortal.Models.Entities;
-using Microsoft.EntityFrameworkCore;
 
 namespace EcomPortal.Repositories
 {

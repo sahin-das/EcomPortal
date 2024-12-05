@@ -1,4 +1,4 @@
-﻿namespace EcomPortal.Models.ProductDto
+﻿namespace EcomPortal.Models.Dtos.Product
 {
     public class UpdateProductDto
     {

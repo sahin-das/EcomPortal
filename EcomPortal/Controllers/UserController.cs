@@ -1,5 +1,5 @@
 ﻿using EcomPortal.Models.Entities;
-using EcomPortal.Models.UserDto;
+using EcomPortal.Models.Dtos.User;
 using EcomPortal.Services;
 using Microsoft.AspNetCore.Mvc;
 

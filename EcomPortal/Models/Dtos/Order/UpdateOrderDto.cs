@@ -1,4 +1,4 @@
-﻿namespace EcomPortal.Models.OrderRequest
+﻿namespace EcomPortal.Models.Dtos.Order
 {
     public class UpdateOrderDto
     {

@@ -1,19 +1,19 @@
 ﻿using EcomPortal.Models.Entities;
-using EcomPortal.Models.ProductDto;
+using EcomPortal.Models.Dtos.Product;
 using EcomPortal.Repositories;
 
 namespace EcomPortal.Services
 {
-    public class ProductService(IGenericRepository<Product> ProductRepository) : 
-        GenericService<Product, AddProductDto, UpdateProductDto>(ProductRepository),
+    public class ProductService(IGenericRepository<Product> productRepository) : 
+        GenericService<Product, AddProductDto, UpdateProductDto>(productRepository),
         IGenericService<Product, AddProductDto, UpdateProductDto>
     {
-        private readonly IGenericRepository<Product> _ProductRepository = ProductRepository;
+        private readonly IGenericRepository<Product> _productRepository = productRepository;
 
         public override Product MapToEntity(AddProductDto dto)
         {
             ArgumentNullException.ThrowIfNull(dto);
-            var Product = new Product()
+            var product = new Product()
             {
                 Name = dto.Name,
                 Price = dto.Price,
@@ -21,7 +21,7 @@ namespace EcomPortal.Services
                 Description= dto.Description
             };
 
-            return Product;
+            return product;
         }
 
         public override void MapToEntity(UpdateProductDto dto, Product entity)
