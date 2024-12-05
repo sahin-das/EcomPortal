@@ -37,12 +37,12 @@ namespace EcomPortal.Controllers
             {
                 return BadRequest(ModelState);
             }
-            await _userService.CreateUserAsync(request);
-            return CreatedAtAction(nameof(GetUserById), new { id = request.Name }, request);
+            var user = await _userService.CreateUserAsync(request);
+            return Ok(user);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateUser(Guid id, [FromBody] AddUserDto request)
+        public async Task<IActionResult> UpdateUser(Guid id, [FromBody] UpdateUserDto request)
         {
             if (!ModelState.IsValid)
             {
@@ -51,8 +51,8 @@ namespace EcomPortal.Controllers
 
             try
             {
-                await _userService.UpdateUserAsync(id, request);
-                return NoContent();
+                var user = await _userService.UpdateUserAsync(id, request);
+                return Ok(user);
             }
             catch (Exception ex)
             {
@@ -63,8 +63,15 @@ namespace EcomPortal.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser(Guid id)
         {
-            await _userService.DeleteUserAsync(id);
-            return NoContent();
+            try
+            {
+                await _userService.DeleteUserAsync(id);
+                return Ok("Deleted Successfully.");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

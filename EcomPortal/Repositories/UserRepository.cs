@@ -18,16 +18,18 @@ namespace EcomPortal.Repositories
             return await _context.Users.FindAsync(id);
         }
 
-        public async Task AddAsync(User user)
+        public async Task<User> AddAsync(User user)
         {
             await _context.Users.AddAsync(user);
             await _context.SaveChangesAsync();
+            return user;
         }
 
-        public async Task UpdateAsync(User user)
+        public async Task<User> UpdateAsync(User user)
         {
             _context.Users.Update(user);
             await _context.SaveChangesAsync();
+            return user;
         }
 
         public async Task DeleteAsync(Guid id)
@@ -37,6 +39,10 @@ namespace EcomPortal.Repositories
             {
                 _context.Users.Remove(user);
                 await _context.SaveChangesAsync();
+            }
+            else
+            {
+                throw new Exception("No user found");
             }
         }
     }

@@ -7,8 +7,8 @@ namespace EcomPortal.Services
     {
         Task<IEnumerable<User>> GetAllUsersAsync();
         Task<User?> GetUserByIdAsync(Guid id);
-        Task CreateUserAsync(AddUserDto request);
-        Task UpdateUserAsync(Guid id, AddUserDto request);
+        Task<User> CreateUserAsync(AddUserDto request);
+        Task<User> UpdateUserAsync(Guid id, UpdateUserDto request);
         Task DeleteUserAsync(Guid id);
     }
 }
