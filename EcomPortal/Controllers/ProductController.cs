@@ -1,87 +1,78 @@
-﻿using EcomPortal.Data;
-using EcomPortal.Models.Entities;
+﻿using EcomPortal.Models.Entities;
 using EcomPortal.Models.Dtos.Product;
+using EcomPortal.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EcomPortal.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductController(ApplicationDbContext dbContext, ILogger<ProductController> logger) : ControllerBase
+    public class ProductController(IGenericService<Product, AddProductDto, UpdateProductDto> ProductService, ILogger<ProductController> logger) : ControllerBase
     {
-        public readonly ApplicationDbContext dbContext = dbContext;
+        private readonly IGenericService<Product, AddProductDto, UpdateProductDto> _ProductService = ProductService;
         private readonly ILogger<ProductController> _logger = logger;
 
         [HttpGet]
-        public IActionResult GetProduct()
+        public async Task<IActionResult> GetAllProducts()
         {
             _logger.LogInformation("Executing Get method");
-            var products = dbContext.Products.ToList();
-            if (products == null)
-            {
-                _logger.LogError("sahin log: No products found.");
-                return NotFound("No products found.");
-            }
-
-            return Ok(products);
+            var Products = await _ProductService.GetAllAsync();
+            return Ok(Products);
         }
 
-        [HttpGet]
-        [Route("{id:guid}")]
-        public IActionResult GetProductById(Guid id)
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetProductById(Guid id)
         {
-            var product = dbContext.Products.Find(id);
-            if (product == null)
+            var Product = await _ProductService.GetByIdAsync(id);
+            if (Product == null)
             {
-                return NotFound();
+                return NotFound($"Product with ID {id} not found.");
             }
-            return Ok(product);
+            return Ok(Product);
         }
 
         [HttpPost]
-        public IActionResult AddProduct(AddProductDto addProductDto)
+        public async Task<IActionResult> CreateProduct([FromBody] AddProductDto request)
         {
-            var product = new Product()
+            if (!ModelState.IsValid)
             {
-                Name = addProductDto.Name,
-                Description = addProductDto.Description,
-                Category = addProductDto.Category,
-                Price = addProductDto.Price
-            };
-            dbContext.Products.Add(product);
-            dbContext.SaveChanges();
-            return Ok(product);
+                return BadRequest(ModelState);
+            }
+            var Product = await _ProductService.CreateAsync(request);
+            return Ok(Product);
         }
 
-        [HttpPut]
-        [Route("{id:guid}")]
-        public IActionResult UpdateProduct(Guid id, UpdateProductDto updateProductDto)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateProduct(Guid id, [FromBody] UpdateProductDto request)
         {
-            var product = dbContext.Products.Find(id);
-            if (product == null)
+            if (!ModelState.IsValid)
             {
-                return NotFound();
+                return BadRequest(ModelState);
             }
-            product.Name = updateProductDto.Name;
-            product.Description = updateProductDto.Description;
-            product.Category = updateProductDto.Category;
-            product.Price = updateProductDto.Price;
-            dbContext.SaveChanges();
-            return Ok(product);
+
+            try
+            {
+                var Product = await _ProductService.UpdateAsync(id, request);
+                return Ok(Product);
+            }
+            catch (Exception ex)
+            {
+                return NotFound(ex.Message);
+            }
         }
 
-        [HttpDelete]
-        [Route("{id:guid}")]
-        public IActionResult DeleteProduct(Guid id)
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteProduct(Guid id)
         {
-            var product = dbContext.Products.Find(id);
-            if (product == null)
+            try
             {
-                return NotFound();
+                await _ProductService.DeleteAsync(id);
+                return Ok("Deleted Successfully.");
             }
-            dbContext.Products.Remove(product);
-            dbContext.SaveChanges();
-            return Ok(product);
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

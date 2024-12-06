@@ -4,23 +4,60 @@ using EcomPortal.Repositories;
 
 namespace EcomPortal.Services
 {
-    public class OrderService(IGenericRepository<Order> orderRepository) :
+    public class OrderService(IGenericRepository<Order> orderRepository,
+                              IGenericRepository<Product> productRepository,
+                              IGenericRepository<User> userRepository,
+                              IGenericRepository<OrderProduct> orderProductRepository) :
         GenericService<Order, AddOrderDto, UpdateOrderDto>(orderRepository),
         IGenericService<Order, AddOrderDto, UpdateOrderDto>
     {
         private readonly IGenericRepository<Order> _orderRepository = orderRepository;
+        private readonly IGenericRepository<Product> _productRepository = productRepository;
+        private readonly IGenericRepository<User> _userRepository = userRepository;
+        private readonly IGenericRepository<OrderProduct> _orderProductRepository = orderProductRepository;
 
-        public override Order MapToEntity(AddOrderDto dto)
+        public new async Task<Order> CreateAsync(AddOrderDto dto)
         {
             ArgumentNullException.ThrowIfNull(dto);
-            var order = new Order()
+
+            var user = await _userRepository.GetByIdAsync(dto.UserId);
+            if (user == null)
+            {
+                throw new ArgumentException($"Product with ID {dto.UserId} not found.");
+            }
+
+            var order = new Order
             {
                 UserId = dto.UserId,
                 ItemName = dto.ItemName,
                 ItemDescription = dto.ItemDescription,
                 BuyerName = dto.BuyerName,
-                TotalBill = dto.TotalBill
+                TotalBill = dto.TotalBill,
+                User = user
             };
+
+            order = await _orderRepository.AddAsync(order);
+
+            if (dto.OrderProducts != null && dto.OrderProducts.Count != 0)
+            {
+                foreach (var productDto in dto.OrderProducts)
+                {
+                    var product = await _productRepository.GetByIdAsync(productDto.ProductId);
+                    if (product == null)
+                    {
+                        throw new ArgumentException($"Product with ID {productDto.ProductId} not found.");
+                    }
+
+                    var orderProduct = new OrderProduct
+                    {
+                        OrderId = order.Id,
+                        ProductId = product.Id,
+                        Quantity = productDto.Quantity
+                    };
+
+                    await _orderProductRepository.AddAsync(orderProduct);
+                }
+            }
 
             return order;
         }

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace EcomPortal.Models.Entities
 {
@@ -18,6 +19,8 @@ namespace EcomPortal.Models.Entities
         [Required, Range(0.01, double.MaxValue, ErrorMessage = "Total bill must be greater than zero.")]
         
         public required Guid UserId { get; init; }
+
+        [JsonIgnore]
         public User User { get; init; } = null!;
 
         [Required]
@@ -26,6 +29,6 @@ namespace EcomPortal.Models.Entities
 
         public DateTime CreatedDate { get; init; } = DateTime.UtcNow;
 
-        public ICollection<OrderProduct> OrderProducts { get; } = new List<OrderProduct>();
+        public ICollection<OrderProduct> OrderProducts { get; init; } = [];
     }
 }

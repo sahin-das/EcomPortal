@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace EcomPortal.Models.Entities
 {
@@ -21,6 +22,7 @@ namespace EcomPortal.Models.Entities
 
         public bool IsActive { get; set; } = true;
 
-        public ICollection<Order> Orders { get; set; } = new List<Order>();
+        [JsonIgnore]
+        public ICollection<Order> Orders { get; set; } = [];
     }
 }

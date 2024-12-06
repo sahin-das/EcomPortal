@@ -1,83 +1,78 @@
-﻿using EcomPortal.Data;
-using EcomPortal.Models.Entities;
+﻿using EcomPortal.Models.Entities;
 using EcomPortal.Models.Dtos.Order;
+using EcomPortal.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EcomPortal.Controllers
 {
-    // minimal to normal, implment logs, service and repo...
-    public static class OrderController
+    [Route("api/[controller]")]
+    [ApiController]
+    public class OrderController(IGenericService<Order, AddOrderDto, UpdateOrderDto> OrderService, ILogger<OrderController> logger) : ControllerBase
     {
-        public static void MapOrderEndpoints(this IEndpointRouteBuilder endpoints)
+        private readonly IGenericService<Order, AddOrderDto, UpdateOrderDto> _OrderService = OrderService;
+        private readonly ILogger<OrderController> _logger = logger;
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllOrders()
         {
-            endpoints.MapGet("/api/orders", GetAllOrders);
-            endpoints.MapGet("/api/orders/{id}", GetOrderById);
-            endpoints.MapPost("/api/orders", CreateOrder);
-            endpoints.MapPut("/api/orders/{id}", UpdateOrder);
-            endpoints.MapDelete("/api/orders/{id}", DeleteOrder);
+            _logger.LogInformation("Executing Get method");
+            var Orders = await _OrderService.GetAllAsync();
+            return Ok(Orders);
         }
 
-        private static IResult GetAllOrders(ApplicationDbContext dbContext)
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetOrderById(Guid id)
         {
-            var orders = dbContext.Orders.ToList();
-            if (orders == null)
+            var Order = await _OrderService.GetByIdAsync(id);
+            if (Order == null)
             {
-                return Results.NotFound("No orders found");
+                return NotFound($"Order with ID {id} not found.");
             }
-            return Results.Ok(orders);
+            return Ok(Order);
         }
-        
-        private static async Task<IResult> GetOrderById(Guid id, ApplicationDbContext dbContext)
+
+        [HttpPost]
+        public async Task<IActionResult> CreateOrder([FromBody] AddOrderDto request)
         {
-            var order = await dbContext.Orders.FindAsync(id);
-            if (order == null)
+            if (!ModelState.IsValid)
             {
-                return Results.NotFound("No orders found");
+                return BadRequest(ModelState);
             }
-            return Results.Ok(order);
+            var Order = await _OrderService.CreateAsync(request);
+            return Ok(Order);
         }
 
-        private static async Task<IResult> CreateOrder([FromBody] AddOrderDto request, ApplicationDbContext dbContext)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateOrder(Guid id, [FromBody] UpdateOrderDto request)
         {
-            var order = new Order()
+            if (!ModelState.IsValid)
             {
-                UserId = request.UserId,
-                BuyerName = request.BuyerName,
-                ItemName = request.ItemName,
-                ItemDescription = request.ItemDescription,
-                TotalBill = request.TotalBill
-            };
-            await dbContext.Orders.AddAsync(order);
-            await dbContext.SaveChangesAsync();
-            return Results.Ok(order);
-        }
-
-        private static async Task<IResult> UpdateOrder(Guid id, [FromBody] UpdateOrderDto request, ApplicationDbContext dbContext)
-        {
-            var order = await dbContext.Orders.FindAsync(id);
-            if (order == null)
-            {
-                return Results.NotFound("No orders found");
+                return BadRequest(ModelState);
             }
-            order.BuyerName = request.BuyerName;
-            order.ItemName = request.ItemName;
-            order.ItemDescription = request.ItemDescription;
-            order.TotalBill = request.TotalBill;
 
-            await dbContext.SaveChangesAsync();
-            return Results.Ok(order);
+            try
+            {
+                var Order = await _OrderService.UpdateAsync(id, request);
+                return Ok(Order);
+            }
+            catch (Exception ex)
+            {
+                return NotFound(ex.Message);
+            }
         }
 
-        private static async Task<IResult> DeleteOrder(Guid id, ApplicationDbContext dbContext)
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteOrder(Guid id)
         {
-            var order = await dbContext.Orders.FindAsync(id);
-            if (order == null)
+            try
             {
-                return Results.NotFound("No orders found");
+                await _OrderService.DeleteAsync(id);
+                return Ok("Deleted Successfully.");
             }
-            dbContext.Remove(order);
-            await dbContext.SaveChangesAsync();
-            return Results.Ok("Order deleted successfully.");
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

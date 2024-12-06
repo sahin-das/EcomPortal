@@ -6,6 +6,10 @@ using EcomPortal.Services;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 using DotNetEnv;
+using EcomPortal.Models.Entities;
+using EcomPortal.Models.Dtos.User;
+using EcomPortal.Models.Dtos.Order;
+using EcomPortal.Models.Dtos.Product;
 
 var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Development";
 var envFileName = $".env.{environment.ToLower()}";
@@ -32,6 +36,10 @@ builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlSer
 builder.Services.AddControllers();
 builder.Services.AddScoped(typeof(IGenericService<,,>), typeof(GenericService<,,>));
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+
+builder.Services.AddScoped<IGenericService<User, AddUserDto, UpdateUserDto>, UserService>();
+builder.Services.AddScoped<IGenericService<Product, AddProductDto, UpdateProductDto>,ProductService>();
+builder.Services.AddScoped<IGenericService<Order, AddOrderDto, UpdateOrderDto>, OrderService>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

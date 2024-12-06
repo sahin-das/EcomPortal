@@ -29,6 +29,7 @@ namespace EcomPortal.Services
             entity.Name = dto.Name;
             entity.Email = dto.Email;
             entity.Phone = dto.Phone;
+            entity.UpdatedDate = DateTime.UtcNow;
         }
     }
 }
