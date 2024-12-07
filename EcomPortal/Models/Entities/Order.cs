@@ -29,6 +29,6 @@ namespace EcomPortal.Models.Entities
 
         public DateTime CreatedDate { get; init; } = DateTime.UtcNow;
 
-        public ICollection<OrderProduct> OrderProducts { get; init; } = [];
+        public ICollection<OrderProduct> OrderProducts { get; set; } = new List<OrderProduct>();
     }
 }

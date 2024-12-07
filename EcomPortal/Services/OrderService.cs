@@ -42,12 +42,9 @@ namespace EcomPortal.Services
             {
                 foreach (var productDto in dto.OrderProducts)
                 {
-                    var product = await _productRepository.GetByIdAsync(productDto.ProductId);
-                    if (product == null)
-                    {
-                        throw new ArgumentException($"Product with ID {productDto.ProductId} not found.");
-                    }
-
+                    var product = await _productRepository.GetByIdAsync(productDto.ProductId) 
+                        ?? throw new ArgumentException($"Product with ID {productDto.ProductId} not found.");
+                    
                     var orderProduct = new OrderProduct
                     {
                         OrderId = order.Id,

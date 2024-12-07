@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EcomPortal.Data;
 
-// fluent config best practice of db context
 public class ApplicationDbContext(DbContextOptions options) : DbContext(options)
 {
     public DbSet<Product> Products { get; set; }
@@ -16,6 +15,12 @@ public class ApplicationDbContext(DbContextOptions options) : DbContext(options)
         base.OnModelCreating(modelBuilder);
 
         modelBuilder.Entity<Order>()
+            .HasMany(o => o.OrderProducts)
+            .WithOne(op => op.Order)
+            .HasForeignKey(op => op.OrderId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<Order>()
             .HasOne(o => o.User)
             .WithMany(u => u.Orders)
             .HasForeignKey(o => o.UserId)
@@ -25,13 +30,9 @@ public class ApplicationDbContext(DbContextOptions options) : DbContext(options)
             .HasKey(op => new { op.OrderId, op.ProductId });
 
         modelBuilder.Entity<OrderProduct>()
-            .HasOne(op => op.Order)
-            .WithMany(o => o.OrderProducts)
-            .HasForeignKey(op => op.OrderId);
-
-        modelBuilder.Entity<OrderProduct>()
             .HasOne(op => op.Product)
             .WithMany(p => p.OrderProducts)
-            .HasForeignKey(op => op.ProductId);
+            .HasForeignKey(op => op.ProductId)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }
