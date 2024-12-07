@@ -36,25 +36,23 @@ namespace EcomPortal.Services
                 User = user
             };
 
-            order = await _orderRepository.AddAsync(order);
-
-            if (dto.OrderProducts != null && dto.OrderProducts.Count != 0)
+            foreach (var productDto in dto.OrderProducts)
             {
-                foreach (var productDto in dto.OrderProducts)
+                var product = await _productRepository.GetByIdAsync(productDto.ProductId) 
+                    ?? throw new ArgumentException($"Product with ID {productDto.ProductId} not found.");
+                
+                var orderProduct = new OrderProduct
                 {
-                    var product = await _productRepository.GetByIdAsync(productDto.ProductId) 
-                        ?? throw new ArgumentException($"Product with ID {productDto.ProductId} not found.");
-                    
-                    var orderProduct = new OrderProduct
-                    {
-                        OrderId = order.Id,
-                        ProductId = product.Id,
-                        Quantity = productDto.Quantity
-                    };
-
-                    await _orderProductRepository.AddAsync(orderProduct);
-                }
+                    OrderId = order.Id,
+                    Order = order,
+                    Product = product,
+                    ProductId = product.Id,
+                    Quantity = productDto.Quantity
+                };
+                order.OrderProducts.Add(orderProduct);
             }
+            
+            order = await _orderRepository.AddAsync(order);
 
             return order;
         }

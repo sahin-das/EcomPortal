@@ -34,12 +34,17 @@ var connectionString = Environment.GetEnvironmentVariable("DB_CONNECTION_STRING"
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
 
 builder.Services.AddControllers();
-builder.Services.AddScoped(typeof(IGenericService<,,>), typeof(GenericService<,,>));
-builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
+builder.Services.AddScoped(typeof(IGenericService<,,>), typeof(GenericService<,,>));
 builder.Services.AddScoped<IGenericService<User, AddUserDto, UpdateUserDto>, UserService>();
 builder.Services.AddScoped<IGenericService<Product, AddProductDto, UpdateProductDto>,ProductService>();
 builder.Services.AddScoped<IGenericService<Order, AddOrderDto, UpdateOrderDto>, OrderService>();
+
+builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+builder.Services.AddScoped<IGenericRepository<User>, UserRepository>();
+builder.Services.AddScoped<IGenericRepository<Order>, OrderRepository>();
+builder.Services.AddScoped<IGenericRepository<Product>, ProductRepository>();
+builder.Services.AddScoped<IGenericRepository<OrderProduct>, GenericRepository<OrderProduct>>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

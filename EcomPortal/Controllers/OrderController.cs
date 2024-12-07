@@ -9,21 +9,21 @@ namespace EcomPortal.Controllers
     [ApiController]
     public class OrderController(IGenericService<Order, AddOrderDto, UpdateOrderDto> OrderService, ILogger<OrderController> logger) : ControllerBase
     {
-        private readonly IGenericService<Order, AddOrderDto, UpdateOrderDto> _OrderService = OrderService;
+        private readonly IGenericService<Order, AddOrderDto, UpdateOrderDto> _orderService = OrderService;
         private readonly ILogger<OrderController> _logger = logger;
 
         [HttpGet]
         public async Task<IActionResult> GetAllOrders()
         {
             _logger.LogInformation("Executing Get method");
-            var Orders = await _OrderService.GetAllAsync();
+            var Orders = await _orderService.GetAllAsync();
             return Ok(Orders);
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetOrderById(Guid id)
         {
-            var Order = await _OrderService.GetByIdAsync(id);
+            var Order = await _orderService.GetByIdAsync(id);
             if (Order == null)
             {
                 return NotFound($"Order with ID {id} not found.");
@@ -38,7 +38,7 @@ namespace EcomPortal.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var Order = await _OrderService.CreateAsync(request);
+            var Order = await _orderService.CreateAsync(request);
             return Ok(Order);
         }
 
@@ -52,7 +52,7 @@ namespace EcomPortal.Controllers
 
             try
             {
-                var Order = await _OrderService.UpdateAsync(id, request);
+                var Order = await _orderService.UpdateAsync(id, request);
                 return Ok(Order);
             }
             catch (Exception ex)
@@ -66,7 +66,7 @@ namespace EcomPortal.Controllers
         {
             try
             {
-                await _OrderService.DeleteAsync(id);
+                await _orderService.DeleteAsync(id);
                 return Ok("Deleted Successfully.");
             }
             catch (Exception ex)
