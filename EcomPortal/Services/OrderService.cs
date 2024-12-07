@@ -28,11 +28,6 @@ namespace EcomPortal.Services
 
             var order = new Order
             {
-                UserId = dto.UserId,
-                ItemName = dto.ItemName,
-                ItemDescription = dto.ItemDescription,
-                BuyerName = dto.BuyerName,
-                TotalBill = dto.TotalBill,
                 User = user
             };
 
@@ -55,15 +50,6 @@ namespace EcomPortal.Services
             order = await _orderRepository.AddAsync(order);
 
             return order;
-        }
-
-        public override void MapToEntity(UpdateOrderDto dto, Order entity)
-        {
-            ArgumentNullException.ThrowIfNull(dto);
-            entity.ItemName = dto.ItemName;
-            entity.ItemDescription = dto.ItemDescription;
-            entity.BuyerName = dto.BuyerName;
-            entity.TotalBill = dto.TotalBill;
         }
     }
 }

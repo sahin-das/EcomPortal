@@ -41,11 +41,7 @@ namespace EcomPortal.Controllers
         {
             var order = new Order()
             {
-                UserId = request.UserId,
-                BuyerName = request.BuyerName,
-                ItemName = request.ItemName,
-                ItemDescription = request.ItemDescription,
-                TotalBill = request.TotalBill
+                UserId = request.UserId
             };
             await dbContext.Orders.AddAsync(order);
             await dbContext.SaveChangesAsync();
@@ -59,10 +55,6 @@ namespace EcomPortal.Controllers
             {
                 return Results.NotFound("No orders found");
             }
-            order.BuyerName = request.BuyerName;
-            order.ItemName = request.ItemName;
-            order.ItemDescription = request.ItemDescription;
-            order.TotalBill = request.TotalBill;
 
             await dbContext.SaveChangesAsync();
             return Results.Ok(order);
