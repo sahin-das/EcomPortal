@@ -5,6 +5,5 @@ namespace EcomPortal.Repositories
 {
     public class ProductRepository(ApplicationDbContext context) : GenericRepository<Product>(context), IGenericRepository<Product>
     {
-        private readonly ApplicationDbContext _context = context;
     }
 }

@@ -7,28 +7,28 @@ namespace EcomPortal.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class OrderController(IGenericService<Order, AddOrderDto, UpdateOrderDto> OrderService, ILogger<OrderController> logger) : ControllerBase
+    public class OrderController(IGenericService<Order, AddOrderDto, UpdateOrderDto> orderService, ILogger<OrderController> logger) : ControllerBase
     {
-        private readonly IGenericService<Order, AddOrderDto, UpdateOrderDto> _orderService = OrderService;
+        private readonly IGenericService<Order, AddOrderDto, UpdateOrderDto> _orderService = orderService;
         private readonly ILogger<OrderController> _logger = logger;
 
         [HttpGet]
         public async Task<IActionResult> GetAllOrders()
         {
             _logger.LogInformation("Executing Get method");
-            var Orders = await _orderService.GetAllAsync();
-            return Ok(Orders);
+            var orders = await _orderService.GetAllAsync();
+            return Ok(orders);
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetOrderById(Guid id)
         {
-            var Order = await _orderService.GetByIdAsync(id);
-            if (Order == null)
+            var order = await _orderService.GetByIdAsync(id);
+            if (order == null)
             {
                 return NotFound($"Order with ID {id} not found.");
             }
-            return Ok(Order);
+            return Ok(order);
         }
 
         [HttpPost]
@@ -38,11 +38,11 @@ namespace EcomPortal.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var Order = await _orderService.CreateAsync(request);
-            return Ok(Order);
+            var order = await _orderService.CreateAsync(request);
+            return Ok(order);
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("{id:guid}")]
         public async Task<IActionResult> UpdateOrder(Guid id, [FromBody] UpdateOrderDto request)
         {
             if (!ModelState.IsValid)
@@ -52,8 +52,8 @@ namespace EcomPortal.Controllers
 
             try
             {
-                var Order = await _orderService.UpdateAsync(id, request);
-                return Ok(Order);
+                var order = await _orderService.UpdateAsync(id, request);
+                return Ok(order);
             }
             catch (Exception ex)
             {
@@ -61,7 +61,7 @@ namespace EcomPortal.Controllers
             }
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id:guid}")]
         public async Task<IActionResult> DeleteOrder(Guid id)
         {
             try

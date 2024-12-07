@@ -7,28 +7,28 @@ namespace EcomPortal.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductController(IGenericService<Product, AddProductDto, UpdateProductDto> ProductService, ILogger<ProductController> logger) : ControllerBase
+    public class ProductController(IGenericService<Product, AddProductDto, UpdateProductDto> productService, ILogger<ProductController> logger) : ControllerBase
     {
-        private readonly IGenericService<Product, AddProductDto, UpdateProductDto> _ProductService = ProductService;
+        private readonly IGenericService<Product, AddProductDto, UpdateProductDto> _productService = productService;
         private readonly ILogger<ProductController> _logger = logger;
 
         [HttpGet]
         public async Task<IActionResult> GetAllProducts()
         {
             _logger.LogInformation("Executing Get method");
-            var Products = await _ProductService.GetAllAsync();
-            return Ok(Products);
+            var products = await _productService.GetAllAsync();
+            return Ok(products);
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetProductById(Guid id)
         {
-            var Product = await _ProductService.GetByIdAsync(id);
-            if (Product == null)
+            var product = await _productService.GetByIdAsync(id);
+            if (product == null)
             {
                 return NotFound($"Product with ID {id} not found.");
             }
-            return Ok(Product);
+            return Ok(product);
         }
 
         [HttpPost]
@@ -38,8 +38,8 @@ namespace EcomPortal.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var Product = await _ProductService.CreateAsync(request);
-            return Ok(Product);
+            var product = await _productService.CreateAsync(request);
+            return Ok(product);
         }
 
         [HttpPut("{id}")]
@@ -52,8 +52,8 @@ namespace EcomPortal.Controllers
 
             try
             {
-                var Product = await _ProductService.UpdateAsync(id, request);
-                return Ok(Product);
+                var product = await _productService.UpdateAsync(id, request);
+                return Ok(product);
             }
             catch (Exception ex)
             {
@@ -61,12 +61,12 @@ namespace EcomPortal.Controllers
             }
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id:guid}")]
         public async Task<IActionResult> DeleteProduct(Guid id)
         {
             try
             {
-                await _ProductService.DeleteAsync(id);
+                await _productService.DeleteAsync(id);
                 return Ok("Deleted Successfully.");
             }
             catch (Exception ex)
