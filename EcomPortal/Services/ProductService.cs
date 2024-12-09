@@ -4,33 +4,57 @@ using EcomPortal.Repositories;
 
 namespace EcomPortal.Services
 {
-    public class ProductService(IGenericRepository<Product> productRepository) : 
-        GenericService<Product, AddProductDto, UpdateProductDto>(productRepository),
-        IGenericService<Product, AddProductDto, UpdateProductDto>
+    public class ProductService(ICrudRepository<Product> productRepository)
     {
-        private readonly IGenericRepository<Product> _productRepository = productRepository;
+        private readonly ICrudRepository<Product> _productRepository = productRepository ??
+            throw new ArgumentNullException(nameof(productRepository));
 
-        public override Product MapToEntity(AddProductDto dto)
+        public async Task<IEnumerable<Product>> GetAllAsync()
         {
-            ArgumentNullException.ThrowIfNull(dto);
-            var product = new Product()
-            {
-                Name = dto.Name,
-                Price = dto.Price,
-                Category = dto.Category,
-                Description= dto.Description
-            };
-
-            return product;
+            return await _productRepository.GetAllAsync();
         }
 
-        public override void MapToEntity(UpdateProductDto dto, Product entity)
+        public async Task<Product?> GetByIdAsync(Guid id)
         {
-            ArgumentNullException.ThrowIfNull(dto);
-            entity.Name = dto.Name;
-            entity.Price = dto.Price;
-            entity.Category = dto.Category;
-            entity.Description = dto.Description;
+            return await _productRepository.GetByIdAsync(id);
+        }
+
+        public async Task<Product> CreateAsync(AddProductDto request)
+        {
+            ArgumentNullException.ThrowIfNull(request);
+
+            var product = new Product
+            {
+                Name = request.Name,
+                Price = request.Price,
+                Category = request.Category,
+                Description = request.Description
+            };
+
+            return await _productRepository.AddAsync(product);
+        }
+
+        public async Task<Product> UpdateAsync(Guid id, UpdateProductDto request)
+        {
+            ArgumentNullException.ThrowIfNull(request);
+
+            var product = await _productRepository.GetByIdAsync(id);
+            if (product == null)
+            {
+                throw new KeyNotFoundException($"Product with ID {id} not found.");
+            }
+
+            product.Name = request.Name;
+            product.Price = request.Price;
+            product.Category = request.Category;
+            product.Description = request.Description;
+
+            return await _productRepository.UpdateAsync(product);
+        }
+
+        public async Task DeleteAsync(Guid id)
+        {
+            await _productRepository.DeleteAsync(id);
         }
     }
 }

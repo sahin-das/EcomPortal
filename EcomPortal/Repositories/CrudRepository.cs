@@ -1,14 +1,14 @@
-﻿using EcomPortal.Data;
+﻿using EcomPortal.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace EcomPortal.Repositories
 {
-    public class GenericRepository<T> : IGenericRepository<T> where T : class
+    public class CrudRepository<T> : ICrudRepository<T> where T : class
     {
         private readonly ApplicationDbContext _context;
         private readonly DbSet<T> _dbSet;
 
-        public GenericRepository(ApplicationDbContext context)
+        public CrudRepository(ApplicationDbContext context)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
             _dbSet = _context.Set<T>();

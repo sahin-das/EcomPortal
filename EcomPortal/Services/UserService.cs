@@ -4,32 +4,53 @@ using EcomPortal.Repositories;
 
 namespace EcomPortal.Services
 {
-    public class UserService(IGenericRepository<User> userRepository) : 
-        GenericService<User, AddUserDto, UpdateUserDto>(userRepository), 
-        IGenericService<User, AddUserDto, UpdateUserDto>
+    public class UserService(ICrudRepository<User> userRepository)
     {
-        private readonly IGenericRepository<User> _userRepository = userRepository;
+        private readonly ICrudRepository<User> _userRepository = userRepository ??
+            throw new ArgumentNullException(nameof(userRepository));
 
-        public override User MapToEntity(AddUserDto dto)
+        public async Task<IEnumerable<User>> GetAllAsync()
         {
-            ArgumentNullException.ThrowIfNull(dto);
-            var user = new User() 
-            {
-                Name = dto.Name,
-                Email = dto.Email,
-                Phone = dto.Phone,
-            };
-
-            return user;
+            return await _userRepository.GetAllAsync();
         }
 
-        public override void MapToEntity(UpdateUserDto dto, User entity)
+        public async Task<User?> GetByIdAsync(Guid id)
         {
-            ArgumentNullException.ThrowIfNull(dto);
-            entity.Name = dto.Name;
-            entity.Email = dto.Email;
-            entity.Phone = dto.Phone;
-            entity.UpdatedDate = DateTime.UtcNow;
+            return await _userRepository.GetByIdAsync(id);
+        }
+
+        public async Task<User> CreateAsync(AddUserDto request)
+        {
+            ArgumentNullException.ThrowIfNull(request);
+
+            var user = new User
+            {
+                Name = request.Name,
+                Email = request.Email,
+                Phone = request.Phone,
+                CreatedDate = DateTime.UtcNow
+            };
+
+            return await _userRepository.AddAsync(user);
+        }
+
+        public async Task<User> UpdateAsync(Guid id, UpdateUserDto request)
+        {
+            ArgumentNullException.ThrowIfNull(request);
+
+            var user = await _userRepository.GetByIdAsync(id) ??
+                throw new KeyNotFoundException($"User with ID {id} not found.");
+            user.Name = request.Name;
+            user.Email = request.Email;
+            user.Phone = request.Phone;
+            user.UpdatedDate = DateTime.UtcNow;
+
+            return await _userRepository.UpdateAsync(user);
+        }
+
+        public async Task DeleteAsync(Guid id)
+        {
+            await _userRepository.DeleteAsync(id);
         }
     }
 }

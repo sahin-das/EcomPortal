@@ -22,8 +22,8 @@ namespace EcomPortal.Middleware
                 var problemDetails = new ProblemDetails
                 {
                     Status = StatusCodes.Status500InternalServerError,
-                    Title = "Exception Occured",
-                    Detail = ex.Message + ex.StackTrace
+                    Title = ex.Message,
+                    Detail = ex.StackTrace,
                 };
 
                 context.Response.StatusCode = StatusCodes.Status500InternalServerError;

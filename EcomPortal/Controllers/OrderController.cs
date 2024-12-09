@@ -1,5 +1,4 @@
-﻿using EcomPortal.Models.Entities;
-using EcomPortal.Models.Dtos.Order;
+﻿using EcomPortal.Models.Dtos.Order;
 using EcomPortal.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,9 +6,9 @@ namespace EcomPortal.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class OrderController(IGenericService<Order, AddOrderDto, UpdateOrderDto> orderService, ILogger<OrderController> logger) : ControllerBase
+    public class OrderController(OrderService orderService, ILogger<OrderController> logger) : ControllerBase
     {
-        private readonly IGenericService<Order, AddOrderDto, UpdateOrderDto> _orderService = orderService;
+        private readonly OrderService _orderService = orderService;
         private readonly ILogger<OrderController> _logger = logger;
 
         [HttpGet]

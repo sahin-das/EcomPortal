@@ -1,5 +1,4 @@
-﻿using EcomPortal.Models.Entities;
-using EcomPortal.Models.Dtos.Order;
+﻿using EcomPortal.Models.Dtos.Order;
 using EcomPortal.Services;
 
 namespace EcomPortal.Controllers
@@ -14,19 +13,19 @@ namespace EcomPortal.Controllers
             app.MapPut("/api/orders/{id:guid}", UpdateOrder).WithName("UpdateOrder");
             app.MapDelete("/api/orders/{id:guid}", DeleteOrder).WithName("DeleteOrder");
 
-            static async Task<IResult> GetAllOrders(IGenericService<Order, AddOrderDto, UpdateOrderDto> orderService)
+            static async Task<IResult> GetAllOrders(OrderService orderService)
             {
                 var orders = await orderService.GetAllAsync();
                 return Results.Ok(orders);
             }
 
-            static async Task<IResult> GetOrderById(Guid id, IGenericService<Order, AddOrderDto, UpdateOrderDto> orderService)
+            static async Task<IResult> GetOrderById(Guid id, OrderService orderService)
             {
                 var order = await orderService.GetByIdAsync(id);
                 return order != null ? Results.Ok(order) : Results.NotFound($"Order with ID {id} not found.");
             }
 
-            static async Task<IResult> AddOrder(AddOrderDto request, IGenericService<Order, AddOrderDto, UpdateOrderDto> orderService)
+            static async Task<IResult> AddOrder(AddOrderDto request, OrderService orderService)
             {
                 if (request == null)
                 {
@@ -37,7 +36,7 @@ namespace EcomPortal.Controllers
                 return Results.Ok(order);
             }
 
-            static async Task<IResult> UpdateOrder(Guid id, UpdateOrderDto request, IGenericService<Order, AddOrderDto, UpdateOrderDto> orderService)
+            static async Task<IResult> UpdateOrder(Guid id, UpdateOrderDto request, OrderService orderService)
             {
                 try
                 {
@@ -50,7 +49,7 @@ namespace EcomPortal.Controllers
                 }
             }
 
-            static async Task<IResult> DeleteOrder(Guid id, IGenericService<Order, AddOrderDto, UpdateOrderDto> orderService)
+            static async Task<IResult> DeleteOrder(Guid id, OrderService orderService)
             {
                 try
                 {

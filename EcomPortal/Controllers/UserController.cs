@@ -1,5 +1,4 @@
-﻿using EcomPortal.Models.Entities;
-using EcomPortal.Models.Dtos.User;
+﻿using EcomPortal.Models.Dtos.User;
 using EcomPortal.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,9 +6,9 @@ namespace EcomPortal.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController(IGenericService<User, AddUserDto, UpdateUserDto> userService, ILogger<UserController> logger) : ControllerBase
+    public class UserController(UserService userService, ILogger<UserController> logger) : ControllerBase
     {
-        private readonly IGenericService<User, AddUserDto, UpdateUserDto> _userService = userService;
+        private readonly UserService _userService = userService;
         private readonly ILogger<UserController> _logger = logger;
 
         [HttpGet]

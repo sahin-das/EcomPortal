@@ -1,73 +1,72 @@
 using EcomPortal.Controllers;
-using EcomPortal.Data;
-using EcomPortal.Middleware;
 using EcomPortal.Repositories;
 using EcomPortal.Services;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
-using DotNetEnv;
 using EcomPortal.Models.Entities;
-using EcomPortal.Models.Dtos.User;
-using EcomPortal.Models.Dtos.Order;
-using EcomPortal.Models.Dtos.Product;
+using EcomPortal.Models;
 
-var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Development";
-var envFileName = $".env.{environment.ToLower()}";
-DotNetEnv.Env.Load(envFileName);
-DotNetEnv.Env.Load();
-
-// Configure logging
-Log.Logger = new LoggerConfiguration()
-    .ReadFrom.Configuration(new ConfigurationBuilder()
-        .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-        .AddJsonFile($"appsettings.{environment}.json", optional: true, reloadOnChange: true)
-        .Build())
-    .CreateLogger();
-
-Log.Information("Starting up the application...");
 var builder = WebApplication.CreateBuilder(args);
 
-Log.CloseAndFlush();
+// Configure Serilog
+Log.Logger = new LoggerConfiguration()
+    .ReadFrom.Configuration(builder.Configuration)
+    .CreateLogger();
 
-// Add services to the container.
-var connectionString = Environment.GetEnvironmentVariable("DB_CONNECTION_STRING");
+builder.Host.UseSerilog();
+
+// Add services to the container
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
+                       ?? throw new InvalidOperationException("Connection string not found");
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
 
 builder.Services.AddControllers();
 
-builder.Services.AddScoped(typeof(IGenericService<,,>), typeof(GenericService<,,>));
-builder.Services.AddScoped<IGenericService<User, AddUserDto, UpdateUserDto>, UserService>();
-builder.Services.AddScoped<IGenericService<Product, AddProductDto, UpdateProductDto>,ProductService>();
-builder.Services.AddScoped<IGenericService<Order, AddOrderDto, UpdateOrderDto>, OrderService>();
+// Register services and repositories
+builder.Services.AddScoped<ProductService>();
+builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<OrderService>();
 
-builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
-builder.Services.AddScoped<IGenericRepository<User>, UserRepository>();
-builder.Services.AddScoped<IGenericRepository<Order>, OrderRepository>();
-builder.Services.AddScoped<IGenericRepository<Product>, ProductRepository>();
-builder.Services.AddScoped<IGenericRepository<OrderProduct>, GenericRepository<OrderProduct>>();
+builder.Services.AddScoped(typeof(ICrudRepository<>), typeof(CrudRepository<>));
+builder.Services.AddScoped<ICrudRepository<User>, UserRepository>();
+builder.Services.AddScoped<ICrudRepository<Order>, OrderRepository>();
+builder.Services.AddScoped<ICrudRepository<Product>, ProductRepository>();
+builder.Services.AddScoped<ICrudRepository<OrderProduct>, CrudRepository<OrderProduct>>();
 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+// Configure Swagger/OpenAPI
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Host.UseSerilog();
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+builder.Services.AddProblemDetails();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+try
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    Log.Information("Starting the application");
+
+    // Configure middleware and pipeline
+    if (app.Environment.IsDevelopment())
+    {
+        app.UseSwagger();
+        app.UseSwaggerUI();
+    }
+
+    app.UseHttpsRedirection();
+    app.UseAuthorization();
+
+    app.MapControllers();
+    app.MapOrderEndpoints();
+    app.UseExceptionHandler();
+    app.Run();
 }
-
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
-app.MapControllers();
-app.MapOrderEndpoints();
-
-app.UseMiddleware<ExceptionHandlingMiddleware>();
-
-app.Run();
+catch (Exception ex)
+{
+    Log.Fatal(ex, "The application terminated unexpectedly");
+}
+finally
+{
+    Log.Information("Shutting down the application");
+    Log.CloseAndFlush();
+}

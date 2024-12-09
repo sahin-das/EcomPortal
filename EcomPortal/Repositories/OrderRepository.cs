@@ -1,12 +1,12 @@
-﻿using EcomPortal.Data;
+﻿using EcomPortal.Models;
 using EcomPortal.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace EcomPortal.Repositories
 {
     public class OrderRepository(ApplicationDbContext context) : 
-        GenericRepository<Order>(context), 
-        IGenericRepository<Order>
+        CrudRepository<Order>(context), 
+        ICrudRepository<Order>
     {
         private readonly ApplicationDbContext _context = context;
 

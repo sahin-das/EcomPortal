@@ -9,13 +9,13 @@ namespace Ecom.Tests.Users
     [TestFixture]
     public class UserServiceTests
     {
-        private Mock<IGenericRepository<User>> _mockRepository;
+        private Mock<ICrudRepository<User>> _mockRepository;
         private UserService _userService;
 
         [SetUp]
         public void Setup()
         {
-            _mockRepository = new Mock<IGenericRepository<User>>();
+            _mockRepository = new Mock<ICrudRepository<User>>();
             _userService = new UserService(_mockRepository.Object);
         }
 

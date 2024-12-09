@@ -1,7 +1,7 @@
 ﻿using EcomPortal.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace EcomPortal.Data;
+namespace EcomPortal.Models;
 
 public class ApplicationDbContext(DbContextOptions options) : DbContext(options)
 {

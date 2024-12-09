@@ -1,6 +1,6 @@
 ﻿namespace EcomPortal.Repositories
 {
-    public interface IGenericRepository<T> where T : class
+    public interface ICrudRepository<T> where T : class
     {
         Task<IEnumerable<T>> GetAllAsync();
         Task<T?> GetByIdAsync(Guid id);
