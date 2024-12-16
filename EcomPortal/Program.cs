@@ -1,10 +1,11 @@
 using EcomPortal.Controllers;
+using EcomPortal.Exceptions;
 using EcomPortal.Repositories;
 using EcomPortal.Services;
 using Microsoft.EntityFrameworkCore;
-using Serilog;
 using EcomPortal.Models.Entities;
 using EcomPortal.Models;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,7 +17,7 @@ Log.Logger = new LoggerConfiguration()
 builder.Host.UseSerilog();
 
 // Add services to the container
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
+var connectionString = builder.Configuration.GetConnectionString("DockerConnection")
                        ?? throw new InvalidOperationException("Connection string not found");
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
 
@@ -46,6 +47,8 @@ try
 {
     Log.Information("Starting the application");
 
+    app.UseExceptionHandler();
+    
     // Configure middleware and pipeline
     if (app.Environment.IsDevelopment())
     {
@@ -55,10 +58,9 @@ try
 
     app.UseHttpsRedirection();
     app.UseAuthorization();
-
     app.MapControllers();
     app.MapOrderEndpoints();
-    app.UseExceptionHandler();
+    
     app.Run();
 }
 catch (Exception ex)
